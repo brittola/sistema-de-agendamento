@@ -6,7 +6,8 @@ const appointment = new mongoose.Schema({
     cpf: String,
     description: String,
     date: Date,
-    time: String
+    time: String,
+    finished: Boolean
 });
 
-module.exports = mongoose.Model('appointment', appointment);
+module.exports = mongoose.model('appointment', appointment);
