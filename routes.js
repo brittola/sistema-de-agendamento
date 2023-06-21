@@ -3,7 +3,7 @@ const router = express.Router();
 const AppointmentService = require('./services/AppointmentService');
 
 router.get('/', (req, res) => {
-    res.send('Hello, World!');
+    res.render('index');
 });
 
 router.get('/cadastro', (req, res) => {
@@ -20,6 +20,11 @@ router.post('/create', async (req, res) => {
         console.log(err);
         res.send("Ocorreu uma falha.");
     }
+});
+
+router.get('/appointments', async (req, res) => {
+    const appointments = await AppointmentService.getAll(false);
+    res.json(appointments);
 });
 
 module.exports = router;

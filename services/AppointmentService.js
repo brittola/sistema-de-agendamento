@@ -16,6 +16,16 @@ class AppointmentService {
         }
     }
 
+    async getAll(getFinished) {
+
+        if (getFinished) {
+            return await Appointment.find();
+        } else {
+            return await Appointment.find({'finished': false});
+        }
+
+    }
+
 }
 
 module.exports = new AppointmentService();
