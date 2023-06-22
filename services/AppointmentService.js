@@ -1,4 +1,5 @@
 const Appointment = require('../models/Appointment');
+const AppointmentFactory = require('../factories/AppointmentFactory');
 
 class AppointmentService {
 
@@ -21,7 +22,17 @@ class AppointmentService {
         if (getFinished) {
             return await Appointment.find();
         } else {
-            return await Appointment.find({'finished': false});
+            const rawAppointments = await Appointment.find({'finished': false});
+            const appointments = [];
+
+            rawAppointments.forEach(appointment => {
+                // Trata apenas consultas com data definida
+                if (appointment.date && appointment.time) {
+                    appointments.push(AppointmentFactory.Build(appointment));
+                }
+            });
+
+            return appointments;
         }
 
     }
