@@ -15,7 +15,11 @@
         const element = document.getElementById('calendar');
         const calendar = new FullCalendar.Calendar(element, {
             initialView: 'dayGridMonth',
-            locale: 'pt-br'
+            locale: 'pt-br',
+            events: 'appointments', // rota de appointments
+            eventClick: function(info) {
+                location.href = '/event/' + info.event.id; // indo para rota de detalhamento
+            }
         });
 
         calendar.render();

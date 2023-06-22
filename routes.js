@@ -27,4 +27,19 @@ router.get('/appointments', async (req, res) => {
     res.json(appointments);
 });
 
+router.get('/event/:id', async (req, res) => {
+    const { id } = req.params;
+    const appointment = await AppointmentService.getById(id);
+    
+    res.render('event', { appointment });
+});
+
+router.post('/finish', async (req, res) => {
+    const {id} = req.body;
+
+    await AppointmentService.finish(id);
+
+    res.redirect('/');
+});
+
 module.exports = router;
