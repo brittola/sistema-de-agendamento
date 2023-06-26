@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de consultas</title>
+</head>
+<body>
+    <form action="/search" method="get">
+        <input name="query" type="search" placeholder="Digite o e-mail ou o CPF" id="inSearch">
+    </form>
+    <% if (appointments.length == 0) { %>
+     <h3>Nenhuma consulta encontrada.</h3>
+    <% } else { %>
+        <% appointments.forEach(appointment => { %>
+        <h1>Consulta: <%= appointment.description %></h1>
+        <hr>
+        <ul>
+            <li><strong>Paciente:</strong> <%= appointment.name %></li>
+            <li><strong>E-mail:</strong> <%= appointment.email %></li>
+            <li><strong>CPF:</strong> <%= appointment.cpf %></li>
+        </ul>
+        <hr>
+            <% if (!appointment.finished) { %>
+                <form action="/finish" method="post">
+                    <input type="hidden" name="id" value="<%= appointment._id %>">
+                    <button>Finalizar consulta</button>
+                </form>
+            <% } %>
+        <% }); %>
+    <% } %>
+</body>
+</html>

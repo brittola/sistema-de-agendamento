@@ -42,4 +42,17 @@ router.post('/finish', async (req, res) => {
     res.redirect('/');
 });
 
+router.get('/search', async (req, res) => {
+    const query = req.query.query;
+    let appointments = [];
+
+    if (query) {
+        appointments = [...await AppointmentService.search(query)];
+    } else {
+        appointments = [...await AppointmentService.getAll(true)];
+    }
+
+    res.render('search', { appointments });
+});
+
 module.exports = router;
