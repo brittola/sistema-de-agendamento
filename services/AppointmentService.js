@@ -68,8 +68,8 @@ class AppointmentService {
             host: 'sandbox.smtp.mailtrap.io',
             port: 25,
             auth: {
-                user: '12b5927d8da9f5',
-                pass: '621eb202b57b7f'
+                user: 'user_mailtrap',
+                pass: 'password_mailtrap'
             }
         });
         
@@ -84,7 +84,7 @@ class AppointmentService {
 
             if (gap <= hour) {
                 transporter.sendMail({
-                    from: 'Gabriel Rodrigues <gabriel.rodrigues.brito@gmail.com>',
+                    from: 'Seu Nome <seuemail@email.com>',
                     to: user.email,
                     subject: 'Lembrete de consulta',
                     text: `Olá, ${user.name}! Sua consulta acontecerá em menos de uma hora.`
