@@ -1,5 +1,6 @@
 const Appointment = require('../models/Appointment');
 const AppointmentFactory = require('../factories/AppointmentFactory');
+const mailer = require('nodemailer');
 
 class AppointmentService {
 
@@ -63,15 +64,42 @@ class AppointmentService {
     }
 
     async notify() {
-        const usersToNotify = await Appointment.find({notified: false});
-        usersToNotify.forEach(user => {
-            console.log(`${user.name} - ${user.cpf} notificado`);
-            this.setNotified(user);
+        const transporter = mailer.createTransport({
+            host: 'sandbox.smtp.mailtrap.io',
+            port: 25,
+            auth: {
+                user: '12b5927d8da9f5',
+                pass: '621eb202b57b7f'
+            }
+        });
+        
+        const hour = 1000 * 60 * 60;
+
+        let users = await this.getAll(false);
+        users = users.filter(user => !user.notified);
+        users.forEach(user => {
+
+            const date = user.start;
+            const gap = date - Date.now();
+
+            if (gap <= hour) {
+                transporter.sendMail({
+                    from: 'Gabriel Rodrigues <gabriel.rodrigues.brito@gmail.com>',
+                    to: user.email,
+                    subject: 'Lembrete de consulta',
+                    text: `Olá, ${user.name}! Sua consulta acontecerá em menos de uma hora.`
+                }).then(() => {
+                    this.setNotified(user.id);
+                }).catch(err => {
+                    console.log(err);
+                })
+            }
+
         });
     }
 
-    async setNotified(user) {
-        await Appointment.updateOne({_id: user._id}, {notified: true});
+    async setNotified(userId) {
+        await Appointment.updateOne({_id: userId}, {notified: true});
     }
 
 }

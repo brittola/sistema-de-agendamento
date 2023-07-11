@@ -15,7 +15,10 @@ class AppointmentFactory {
             id: rawAppointment._id,
             title: rawAppointment.name + " - " + rawAppointment.description,
             start,
-            end: start
+            end: start,
+            notified: rawAppointment.notified,
+            name: rawAppointment.name,
+            email: rawAppointment.email
         }
 
         return appointment;
