@@ -11,6 +11,7 @@
     </form>
     <% if (appointments.length == 0) { %>
      <h3>Nenhuma consulta encontrada.</h3>
+     <a href="/search">Ver todas</a>
     <% } else { %>
         <% appointments.forEach(appointment => { %>
         <h1>Consulta: <%= appointment.description %></h1>

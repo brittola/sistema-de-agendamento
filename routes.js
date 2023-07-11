@@ -2,11 +2,19 @@ const express = require('express');
 const router = express.Router();
 const AppointmentService = require('./services/AppointmentService');
 
+// sistema de avisos
+const FIVE_MINUTES = 60000 * 5;
+setInterval(async () => {
+
+    await AppointmentService.notify();
+
+}, FIVE_MINUTES);
+
 router.get('/', (req, res) => {
     res.render('index');
 });
 
-router.get('/cadastro', (req, res) => {
+router.get('/create', (req, res) => {
     res.render('create');
 });
 

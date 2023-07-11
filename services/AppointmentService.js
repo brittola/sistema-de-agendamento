@@ -5,7 +5,7 @@ class AppointmentService {
 
     async create(name, email, description, cpf, date, time) {
         const newAppointment = new Appointment({
-            name, email, description, cpf, date, time, finished: false
+            name, email, description, cpf, date, time, finished: false, notified: false
         });
         
         try {
@@ -60,6 +60,18 @@ class AppointmentService {
             console.log(err);
             return undefined;
         }    
+    }
+
+    async notify() {
+        const usersToNotify = await Appointment.find({notified: false});
+        usersToNotify.forEach(user => {
+            console.log(`${user.name} - ${user.cpf} notificado`);
+            this.setNotified(user);
+        });
+    }
+
+    async setNotified(user) {
+        await Appointment.updateOne({_id: user._id}, {notified: true});
     }
 
 }
